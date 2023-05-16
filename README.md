@@ -20,5 +20,5 @@ In this phase, we are going to create a docker image that contains the DevSecOps
 
 1. git switch 01-building-dso-image
 2. Go to http://jenkins.demo.local:8080 on the web browser of your host computer.
-3. Go to Plugin Manager and install Docker plugin 
+3. Go to Plugin Manager and install Docker plugin and Docker Pipeline plugins.
 4. Create the multibranch pipeline, and add the Github corresponding to dso-tools as source.
