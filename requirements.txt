@@ -1,0 +1,7 @@
+anchorecli
+cyclonedx-bom
+detect-secrets
+pylint
+requests
+trufflehog
+yamllint
