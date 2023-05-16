@@ -7,7 +7,7 @@ pipeline {
     agent any
 
     environment { // Environment variables defined for all steps
-        DOCKER_IMAGE = "registry.demo.local:5000/tools-image"
+        DOCKER_IMAGE = "dso-tools"
     }
 
     stages {
@@ -55,34 +55,11 @@ pipeline {
                             script: "cyclonedx-py --help"
                         sh label: "Test detect-secrets",
                             script: "detect-secrets --version"
-                        sh label: "Test nikto.pl",
-                            script: "nikto.pl -Version"
-                        sh label: "Test for outdated global npm packages",
-                            script: "npm outdated --global"
                         sh label: "Test sonar-scanner",
                             script: "sonar-scanner --version"
                         sh label: "Test trufflehog",
                             script: "trufflehog --help"
                     }
-                }
-            }
-        }
-
-        stage("Push to registry") {
-            steps {
-                script {
-                    // Use commit tag if it has been tagged
-                    tag = sh(returnStdout: true, script: "git tag --contains").trim()
-                    if ("$tag" == "") {
-                        if ("${BRANCH_NAME}" == "main") {
-                           tag = "latest"
-                        } else {
-                            tag = "${BRANCH_NAME}"
-                        }
-                    }
-                    sh "docker tag $DOCKER_IMAGE $DOCKER_IMAGE:$tag"
-                    // By specifying only the image name, all tags will automatically be pushed
-                    sh "docker push $DOCKER_IMAGE"
                 }
             }
         }
