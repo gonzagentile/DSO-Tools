@@ -64,7 +64,7 @@ pipeline {
                         sh label: "Test trufflehog",
                             script: "trufflehog --help"
                         sh label: "Test trivy",
-                            script: "trivy --help"
+                            script: "trivy --version"
                     }
                 }
             }
