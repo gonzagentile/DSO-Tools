@@ -70,11 +70,29 @@ pipeline {
             }
         }
 
-        stage('Trivy Scan') {
+        stage("trivy scan") {
+            agent {
+                docker {
+                    image "${TOOLS_IMAGE}"
+                    // Make sure that username can be mapped correctly
+                    args "-v /etc/passwd:/etc/passwd:ro -v /var/run/docker.sock:/var/run/docker.sock -v trivy-cache:/root/.cache/"
+                    reuseNode true
+                }
+            }
             steps {
+                // Determine commit of previous successful build when this is master
                 script {
-                    docker.image('${TRIVY_IMAGE}').inside("--entrypoint='' -v /var/run/docker.sock:/var/run/docker.sock") {
-                        sh 'image ${TOOLS_IMAGE}'
+                    def result = sh label: "trivy scan",
+                        script: """\
+                            trivy --help
+                        """,
+                        returnStatus: true
+                    // Exit code 1 is generated when secrets are detected or no baseline is present
+                    // Exit code 3 is generated only when .secrets.baseline.json is updated,
+                    // eg. when the line numbers don't match anymore
+                    if (result == 1) {
+                        // There are (unaudited) secrets detected: fail stage
+                        unstable(message: "unaudited secrets have been found")
                     }
                 }
             }
