@@ -38,6 +38,7 @@ RUN curl -sL https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/son
     mv /tmp/sonarscanner/sonar-scanner-${SCANNER}-linux /usr/lib/sonar-scanner
 
 FROM ubuntu:latest as release
+LABEL org.opencontainers.image.source https://github.com/pablorechimon/dso-tools
 # Default entry point
 WORKDIR /workdir
 
