@@ -87,11 +87,8 @@ pipeline {
                             trivy image ${TOOLS_IMAGE} --format template --template @./html.tpl --output trivy_report.html
                         """,
                         returnStatus: true
-                    // Exit code 1 is generated when secrets are detected or no baseline is present
-                    // Exit code 3 is generated only when .secrets.baseline.json is updated,
-                    // eg. when the line numbers don't match anymore
                     if (result == 1) {
-                        // There are (unaudited) secrets detected: fail stage
+                        // The image didn't got scan: fail stage
                         unstable(message: "unaudited image")
                     }
                 }
