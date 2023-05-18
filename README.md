@@ -27,5 +27,10 @@ In this phase, we are going to create a docker image that contains the DevSecOps
 
 In this phase, we are going to push the DSO image we create into a Docker Registry. In this Demo, we are going to use Github packages as example, but you can push it to your desired Docker Registry.
 
-1. Create the Github Personal Access token (Classic) with Write, Read and Delete packages permissions. 
-2. The Jenkins file now contains the "Push to Registry" Stage in which we are tagging and pushing the image to Github packages.
+1. Create the Github Personal Access token (Classic) with Write, Read and Delete packages permissions.
+2. Go to Jenkins, Credentials, and create a global credential with ID "github_token" (Name needed to match Jenkins file) and password would be the token created. Username and Description is for your own management.
+3. The Jenkins file now contains the "Push to Registry" Stage in which we are tagging and pushing the image to Github packages.
+
+## Excercise:
+
+1. Check the Hadolint-results file and notice the recommendations. Check which ones you can fix, and the ones you want to dismiss, find a way to remove them from the results file.
