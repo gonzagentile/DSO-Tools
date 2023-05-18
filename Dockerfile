@@ -49,6 +49,7 @@ RUN ln -s /usr/lib/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner
 # Install necessary binaries
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends \
+    wget \
     bsdmainutils \
     curl \
     dnsutils \
@@ -60,9 +61,12 @@ RUN apt-get install -y --no-install-recommends \
     procps \
     python3 \
     python3-venv 
-RUN apt-get install -y trivy
 Run apt-get clean 
 RUN rm -rf /var/lib/apt/lists/*
+
+# Download and Install Trivy
+RUN wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb
+RUN dpkg -i trivy_0.18.3_Linux-64bit.deb
 
 ENV ANCHORE_CLI_PASS=foobar \
     ANCHORE_CLI_URL=http://anchore-engine_api_1:8228/v1 \
@@ -73,8 +77,7 @@ ENV ANCHORE_CLI_PASS=foobar \
     SONAR_RUNNER_HOME=/usr/lib/sonar-scanner \
     SONAR_USER_HOME=/tmp
 
-RUN groupadd -r tool && \
-    useradd --create-home --no-log-init --shell /bin/bash --system --gid tool --groups tool devsecops
+ RUN groupadd -r tool && \
+     useradd --create-home --no-log-init --shell /bin/bash --system --gid tool --groups tool devsecops
 
-USER tool
-
+ USER devsecops
