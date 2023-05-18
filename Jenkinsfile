@@ -78,9 +78,7 @@ pipeline {
             }
             steps {
                 script {
-                    script: """
-                    echo "Hola Mundo Desde trivy"
-                    """
+                    sh label: "Testing Trivy", script: 'echo "Hola Mundo Desde trivy"'
                 }
             }
         }
