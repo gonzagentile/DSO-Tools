@@ -45,7 +45,7 @@ pipeline {
                             tag = "${BRANCH_NAME}"
                         }
                     }
-                    def image = docker.build("$DOCKER_IMAGE", "--build-arg 'BUILDKIT_INLINE_CACHE=1' --cache-from $DOCKER_IMAGE:$tag --cache-from $DOCKER_IMAGE:latest .")
+                    def image = docker.build("$DOCKER_IMAGE", "--build-arg 'BUILDKIT_INLINE_CACHE=1' --cache-from $DOCKER_IMAGE:1.0 --cache-from $DOCKER_IMAGE:latest .")
                     // Make sure that the user ID exists within the container
                     image.inside("--volume /etc/passwd:/etc/passwd:ro") {
                         sh label: "Test anchore-cli",
