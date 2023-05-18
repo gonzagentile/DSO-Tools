@@ -84,7 +84,7 @@ pipeline {
                 script {
                     def result = sh label: "Trivy scan",
                         script: """\
-                            echo $GITHUB_TOKEN_PSW | docker login ghcr.io -u $GITHUB_TOKEN_USR --password-stdin"
+                            echo $GITHUB_TOKEN_PSW | docker login ghcr.io -u $GITHUB_TOKEN_USR --password-stdin
                             trivy image ghcr.io/pablorechimon/dso-tools:03-scanning-image-trivy --output trivy_report.html
                         """,
                         returnStatus: true
