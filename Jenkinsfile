@@ -71,15 +71,11 @@ pipeline {
         }
 
         stage('Trivy Scan') {
-            agent {
-                docker {
-                    image "${TRIVY_IMAGE}"
-                    args "-v trivy-cache:/root/.cache/ -v /var/run/docker.sock:/var/run/docker.sock"
-                }
-            }
             steps {
                 script {
-                    sh label: "Testing Trivy", script: "trivy --input $TOOLS_IMAGE"
+                    docker.image('aquasec/trivy:latest').inside("-v /var/run/docker.sock:/var/run/docker.sock") {
+                        sh 'trivy image $TOOLS_IMAGE'
+                    }
                 }
             }
         }
