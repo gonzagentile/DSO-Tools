@@ -74,10 +74,10 @@ pipeline {
                 docker {
                     image "${TOOLS_IMAGE}"
                     args "-v trivy-cache:/root/.cache/ -v /var/run/docker.sock:/var/run/docker.sock trivy image ghcr.io/pablorechimon/${BRANCH_NAME} --output trivy_report.html"
-                    }
                 }
             }
         }
+        
 
         stage("Push to registry"){
             steps {
