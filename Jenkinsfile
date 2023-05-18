@@ -109,14 +109,14 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: "*-results.txt, *-report.html"
-            publishHTML ([
-            allowMissing: true,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: '.',
-            reportFiles: 'trivy_report.html',
-            reportName: 'Trivy Scan',
-                ])
+            // publishHTML ([
+            // allowMissing: true,
+            // alwaysLinkToLastBuild: true,
+            // keepAll: true,
+            // reportDir: '.',
+            // reportFiles: 'trivy_report.html',
+            // reportName: 'Trivy Scan',
+            //     ])
         }
     }
 }
