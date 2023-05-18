@@ -84,7 +84,8 @@ pipeline {
                 script {
                     def result = sh label: "Trivy scan",
                         script: """\
-                            trivy image ${TOOLS_IMAGE} --output trivy_report.html
+                            wget https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl
+                            trivy image ${TOOLS_IMAGE} --format template --template @./html.tpl --output trivy_report.html
                         """,
                         returnStatus: true
                     // Exit code 1 is generated when secrets are detected or no baseline is present
