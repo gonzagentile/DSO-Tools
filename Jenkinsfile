@@ -73,8 +73,8 @@ pipeline {
         stage('Trivy Scan') {
             steps {
                 script {
-                    docker.image('$TRIVY_IMAGE').inside("--entrypoint='' -v /var/run/docker.sock:/var/run/docker.sock") {
-                        sh 'image $TOOLS_IMAGE'
+                    docker.image('${TRIVY_IMAGE}').inside("--entrypoint='' -v /var/run/docker.sock:/var/run/docker.sock") {
+                        sh 'image ${TOOLS_IMAGE}'
                     }
                 }
             }
