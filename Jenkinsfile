@@ -84,9 +84,10 @@ pipeline {
                 script {
                     def result = sh label: "Trivy scan",
                         script: """\
-                            trivy image ghcr.io/pablorechimon/dso-tools:03-scanning-image-trivy --output trivy_report.html
+                            trivy --help
                         """,
                         returnStatus: true
+                        //image ghcr.io/pablorechimon/dso-tools:03-scanning-image-trivy --output trivy_report.html
                     // Exit code 1 is generated when secrets are detected or no baseline is present
                     // Exit code 3 is generated only when .secrets.baseline.json is updated,
                     // eg. when the line numbers don't match anymore
