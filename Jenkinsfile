@@ -1,5 +1,6 @@
 // This pipeline revolves around building a Docker image:
 // - Lint: Lints a Dockerfile using hadolint
+// - Trivy Scan: Scan Docker image Vulnerabilities
 // - Build and test: Builds and tests a Docker image
 // - Push: Pushes the image to the registry
 
@@ -9,6 +10,7 @@ pipeline {
     environment { // Environment variables defined for all steps
         DOCKER_IMAGE = "dso-tools"
         GITHUB_TOKEN = credentials("github_token")
+        TOOLS_IMAGE = "ghcr.io/pablorechimon/dso-tools:${BRANCH_NAME}"
     }
 
     stages {
@@ -66,6 +68,17 @@ pipeline {
                 }
             }
         }
+
+        stage('Trivy Scan') {
+            agent {
+                docker {
+                    image "${TOOLS_IMAGE}"
+                    args "-v trivy-cache:/root/.cache/ -v /var/run/docker.sock:/var/run/docker.sock trivy image ghcr.io/pablorechimon/${BRANCH_NAME} --output trivy_report.html"
+                    }
+                }
+            }
+        }
+
         stage("Push to registry"){
             steps {
                 script {
@@ -90,7 +103,15 @@ pipeline {
     // This is for save files created during the pipeline at the end.
     post {
         always {
-            archiveArtifacts artifacts: "*-results.txt"
+            archiveArtifacts artifacts: "*-results.txt, *-report.html"
+            publishHTML ([
+            allowMissing: true,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
+            reportDir: '.',
+            reportFiles: 'trivy_report.html',
+            reportName: 'Trivy Scan',
+                ])
         }
     }
 }
