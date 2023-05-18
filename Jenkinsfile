@@ -70,34 +70,34 @@ pipeline {
             }
         }
 
-        // stage("trivy scan") {
-        //     agent {
-        //         docker {
-        //             image "${TOOLS_IMAGE}"
-        //             // Make sure that username can be mapped correctly
-        //             args "--user devsecops -v /var/run/docker.sock:/var/run/docker.sock -v trivy-cache:/root/.cache/"
-        //             reuseNode true
-        //         }
-        //     }
-        //     steps {
-        //         // Determine commit of previous successful build when this is master
-        //         script {
-        //             def result = sh label: "Trivy scan",
-        //                 script: """\
-        //                     trivy --help
-        //                 """,
-        //                 returnStatus: true
-        //                 //image ghcr.io/pablorechimon/dso-tools:03-scanning-image-trivy --output trivy_report.html
-        //             // Exit code 1 is generated when secrets are detected or no baseline is present
-        //             // Exit code 3 is generated only when .secrets.baseline.json is updated,
-        //             // eg. when the line numbers don't match anymore
-        //             if (result == 1) {
-        //                 // There are (unaudited) secrets detected: fail stage
-        //                 unstable(message: "unaudited image")
-        //             }
-        //         }
-        //     }
-        // }
+        stage("trivy scan") {
+            agent {
+                docker {
+                    image "${TOOLS_IMAGE}"
+                    // Make sure that username can be mapped correctly
+                    args "--user root -v /var/run/docker.sock:/var/run/docker.sock -v trivy-cache:/root/.cache/"
+                    reuseNode true
+                }
+            }
+            steps {
+                // Determine commit of previous successful build when this is master
+                script {
+                    def result = sh label: "Trivy scan",
+                        script: """\
+                            trivy image ${TOOLS_IMAGE}
+                        """,
+                        returnStatus: true
+                        //image ghcr.io/pablorechimon/dso-tools:03-scanning-image-trivy --output trivy_report.html
+                    // Exit code 1 is generated when secrets are detected or no baseline is present
+                    // Exit code 3 is generated only when .secrets.baseline.json is updated,
+                    // eg. when the line numbers don't match anymore
+                    if (result == 1) {
+                        // There are (unaudited) secrets detected: fail stage
+                        unstable(message: "unaudited image")
+                    }
+                }
+            }
+        }
         
 
         stage("Push to registry"){
