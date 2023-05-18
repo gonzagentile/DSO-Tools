@@ -80,7 +80,7 @@ pipeline {
                     sh "echo $GITHUB_TOKEN_PSW | docker login ghcr.io -u $GITHUB_TOKEN_USR --password-stdin"
                     sh "docker tag  $DOCKER_IMAGE:$tag ghcr.io/$DOCKER_IMAGE:$tag"
                     // By specifying only the image name, all tags will automatically be pushed
-                    sh "docker push ghcr.io/$DOCKER_IMAGE"
+                    sh "docker push ghcr.io/$DOCKER_IMAGE:$tag"
                 }
             }
         }
