@@ -14,7 +14,7 @@ This lab was created with Windows 11 and Docker Desktop version 23.0.5, build bc
 
 In order to access to applications with their aliases, you would need to create the Name records under your hosts file located on C:\Windows\System32\drivers\etc\hosts
 
-## Phase 2
+## Phase 2 "Building DSO Image and running Hadolint Scan"
 
 In this phase, we are going to create a docker image that contains the DevSecOps tools in order to allow to achieve the scans and checks we want to implement into an application pipeline.
 
@@ -22,3 +22,10 @@ In this phase, we are going to create a docker image that contains the DevSecOps
 2. Go to http://jenkins.demo.local:8080 on the web browser of your host computer.
 3. Go to Plugin Manager and install Docker plugin and Docker Pipeline plugins.
 4. Create the multibranch pipeline, and add the Github corresponding to dso-tools as source.
+
+## Phase 3 "Pushing DSO Image to Github Packages (Container Registry)"
+
+In this phase, we are going to push the DSO image we create into a Docker Registry. In this Demo, we are going to use Github packages as example, but you can push it to your desired Docker Registry.
+
+1. Create the Github Personal Access token (Classic) with Write, Read and Delete packages permissions. 
+2. The Jenkins file now contains the "Push to Registry" Stage in which we are tagging and pushing the image to Github packages.
