@@ -75,7 +75,7 @@ pipeline {
                 docker {
                     image "${TOOLS_IMAGE}"
                     // Make sure that username can be mapped correctly
-                    args "-v /etc/passwd:/etc/passwd:ro -v /var/run/docker.sock:/var/run/docker.sock -v trivy-cache:/root/.cache/"
+                    args "-v /var/run/docker.sock:/var/run/docker.sock -v trivy-cache:/root/.cache/"
                     reuseNode true
                 }
             }
