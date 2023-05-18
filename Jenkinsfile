@@ -11,6 +11,7 @@ pipeline {
         DOCKER_IMAGE = "dso-tools"
         GITHUB_TOKEN = credentials("github_token")
         TOOLS_IMAGE = "ghcr.io/pablorechimon/dso-tools:${BRANCH_NAME}"
+        TRIVY_IMAGE = "aquasec/trivy:latest"
     }
 
     stages {
@@ -72,13 +73,13 @@ pipeline {
         stage('Trivy Scan') {
             agent {
                 docker {
-                    image "${TOOLS_IMAGE}"
-                    args "-v trivy-cache:/root/.cache/ -v /var/run/docker.sock:/var/run/docker.sock trivy image ghcr.io/pablorechimon/${BRANCH_NAME} --output trivy_report.html"
+                    image "${TRIVY_IMAGE}"
+                    args "-v trivy-cache:/root/.cache/ -v /var/run/docker.sock:/var/run/docker.sock"
                 }
             }
             steps {
                 script {
-                    sh label: "Testing Trivy", script: 'echo "Hola Mundo Desde trivy"'
+                    sh label: "Testing Trivy", script: 'image ghcr.io/pablorechimon/dso-tools:03-scanning-image-trivy'
                 }
             }
         }
