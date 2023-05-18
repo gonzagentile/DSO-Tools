@@ -2,8 +2,7 @@
 
 FROM ubuntu:latest as build
 
-LABEL maintainer="support@go-forward.net"
-LABEL vendor="Go Forward"
+LABEL org.opencontainers.image.source https://github.com/pablorechimon/dso-tools
 
 WORKDIR /
 COPY requirements.txt .
