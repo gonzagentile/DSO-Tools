@@ -42,10 +42,10 @@ pipeline {
                         if ("${BRANCH_NAME}" == "main") {
                             tag = "latest"
                         } else {
-                            tag = "${BRANCH_NAME}"
+                            tag = "1.0"
                         }
                     }
-                    def image = docker.build("$DOCKER_IMAGE", "--build-arg 'BUILDKIT_INLINE_CACHE=1' --cache-from $DOCKER_IMAGE:1.0 --cache-from $DOCKER_IMAGE:latest .")
+                    def image = docker.build("$DOCKER_IMAGE", "--build-arg 'BUILDKIT_INLINE_CACHE=1' --cache-from $DOCKER_IMAGE:$tag --cache-from $DOCKER_IMAGE:latest .")
                     // Make sure that the user ID exists within the container
                     image.inside("--volume /etc/passwd:/etc/passwd:ro") {
                         sh label: "Test anchore-cli",
@@ -78,9 +78,9 @@ pipeline {
                     }
                     // Login to GHCR
                     sh "echo $GITHUB_TOKEN_PSW | docker login ghcr.io -u $GITHUB_TOKEN_USR --password-stdin"
-                    sh "docker tag  $DOCKER_IMAGE:1.0 ghcr.io/$DOCKER_IMAGE:1.0"
+                    sh "docker tag  $DOCKER_IMAGE:$tag ghcr.io/$DOCKER_IMAGE:$tag"
                     // By specifying only the image name, all tags will automatically be pushed
-                    sh "docker push ghcr.io/$DOCKER_IMAGE:1.0"
+                    sh "docker push ghcr.io/$DOCKER_IMAGE:$tag"
                 }
             }
         }
