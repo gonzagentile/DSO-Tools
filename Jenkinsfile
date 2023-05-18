@@ -78,9 +78,9 @@ pipeline {
                     }
                     // Login to GHCR
                     sh "echo $GITHUB_TOKEN_PSW | docker login ghcr.io -u $GITHUB_TOKEN_USR --password-stdin"
-                    sh "docker tag  $DOCKER_IMAGE:$tag ghcr.io/$DOCKER_IMAGE:$tag"
+                    sh "docker tag  $DOCKER_IMAGE:$tag ghcr.io/pablorechimon/$DOCKER_IMAGE:$tag"
                     // By specifying only the image name, all tags will automatically be pushed
-                    sh "docker push ghcr.io/$GITHUB_TOKEN_USR/tree/02-pushing-to-registry/$DOCKER_IMAGE:$tag"
+                    sh "docker push ghcr.io/$GITHUB_TOKEN_USR/$DOCKER_IMAGE:$tag"
                 }
             }
         }
