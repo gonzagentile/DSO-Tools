@@ -11,7 +11,7 @@ pipeline {
         DOCKER_IMAGE = "dso-tools"
         GITHUB_TOKEN = credentials("github_token")
         TOOLS_IMAGE = "ghcr.io/pablorechimon/dso-tools:${BRANCH_NAME}"
-        TRIVY_IMAGE = "docker.io/aquasec/trivy:latest"
+        TRIVY_IMAGE = "aquasec/trivy:latest"
     }
 
     stages {
