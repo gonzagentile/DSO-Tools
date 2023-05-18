@@ -74,7 +74,7 @@ pipeline {
             steps {
                 script {
                     docker.image('aquasec/trivy:latest').inside("-v /var/run/docker.sock:/var/run/docker.sock") {
-                        sh 'trivy image $TOOLS_IMAGE'
+                        sh 'image $TOOLS_IMAGE'
                     }
                 }
             }
