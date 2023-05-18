@@ -69,19 +69,19 @@ pipeline {
             }
         }
 
-        stage('Trivy Scan') {
-            agent {
-                docker {
-                    image "${TOOLS_IMAGE}"
-                    args "-v trivy-cache:/root/.cache/ -v /var/run/docker.sock:/var/run/docker.sock trivy image ghcr.io/pablorechimon/${BRANCH_NAME} --output trivy_report.html"
-                }
-            }
-            steps {
-                script {
-                    sh label: "Testing Trivy", script: 'echo "Hola Mundo Desde trivy"'
-                }
-            }
-        }
+        // stage('Trivy Scan') {
+        //     agent {
+        //         docker {
+        //             image "${TOOLS_IMAGE}"
+        //             args "-v trivy-cache:/root/.cache/ -v /var/run/docker.sock:/var/run/docker.sock trivy image ghcr.io/pablorechimon/${BRANCH_NAME} --output trivy_report.html"
+        //         }
+        //     }
+        //     steps {
+        //         script {
+        //             sh label: "Testing Trivy", script: 'echo "Hola Mundo Desde trivy"'
+        //         }
+        //     }
+        // }
         
 
         stage("Push to registry"){
