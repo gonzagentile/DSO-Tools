@@ -84,7 +84,7 @@ pipeline {
                 script {
                     def result = sh label: "Trivy scan",
                         script: """\
-                            trivy image ${TOOLS_IMAGE} --output trivy_report.html
+                            trivy image ${TRIVY_IMAGE} --output trivy_report.html
                         """,
                         returnStatus: true
                     // Exit code 1 is generated when secrets are detected or no baseline is present
@@ -92,7 +92,7 @@ pipeline {
                     // eg. when the line numbers don't match anymore
                     if (result == 1) {
                         // There are (unaudited) secrets detected: fail stage
-                        unstable(message: "unaudited secrets have been found")
+                        unstable(message: "unaudited image")
                     }
                 }
             }
