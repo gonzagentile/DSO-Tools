@@ -60,6 +60,8 @@ pipeline {
                             script: "sonar-scanner --version"
                         sh label: "Test trufflehog",
                             script: "trufflehog --help"
+                        sh label: "Test trivy",
+                            script: "trivy --help"
                     }
                 }
             }
