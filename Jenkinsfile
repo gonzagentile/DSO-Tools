@@ -75,7 +75,7 @@ pipeline {
                 docker {
                     image "${TOOLS_IMAGE}"
                     // Make sure that username can be mapped correctly
-                    args "-v /var/run/docker.sock:/var/run/docker.sock -v trivy-cache:/root/.cache/"
+                    args "--user devsecops -v /var/run/docker.sock:/var/run/docker.sock -v trivy-cache:/root/.cache/"
                     reuseNode true
                 }
             }
@@ -84,7 +84,6 @@ pipeline {
                 script {
                     def result = sh label: "Trivy scan",
                         script: """\
-                            echo $GITHUB_TOKEN_PSW | docker login ghcr.io -u $GITHUB_TOKEN_USR --password-stdin
                             trivy image ghcr.io/pablorechimon/dso-tools:03-scanning-image-trivy --output trivy_report.html
                         """,
                         returnStatus: true
