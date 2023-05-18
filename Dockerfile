@@ -65,8 +65,8 @@ Run apt-get clean
 RUN rm -rf /var/lib/apt/lists/*
 
 # Download and Install Trivy
-RUN wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb
-RUN dpkg -i trivy_0.18.3_Linux-64bit.deb
+RUN wget https://github.com/aquasecurity/trivy/releases/download/v0.41.0/trivy_0.41.0_Linux-64bit.deb
+RUN dpkg -i trivy_0.41.0_Linux-64bit.deb
 
 ENV ANCHORE_CLI_PASS=foobar \
     ANCHORE_CLI_URL=http://anchore-engine_api_1:8228/v1 \
