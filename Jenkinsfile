@@ -82,9 +82,9 @@ pipeline {
             steps {
                 // Determine commit of previous successful build when this is master
                 script {
-                    def result = sh label: "trivy scan",
+                    def result = sh label: "Trivy scan",
                         script: """\
-                            trivy --help
+                            trivy image ${TOOLS_IMAGE} --output trivy_report.html
                         """,
                         returnStatus: true
                     // Exit code 1 is generated when secrets are detected or no baseline is present
