@@ -79,7 +79,7 @@ pipeline {
             }
             steps {
                 script {
-                    sh label: "Testing Trivy", script: 'image ghcr.io/pablorechimon/dso-tools:03-scanning-image-trivy'
+                    sh label: "Testing Trivy", script: "trivy --input $TOOLS_IMAGE"
                 }
             }
         }
