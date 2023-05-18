@@ -76,6 +76,13 @@ pipeline {
                     args "-v trivy-cache:/root/.cache/ -v /var/run/docker.sock:/var/run/docker.sock trivy image ghcr.io/pablorechimon/${BRANCH_NAME} --output trivy_report.html"
                 }
             }
+            steps {
+                script {
+                    script: """
+                    echo "Hola Mundo Desde trivy"
+                    """
+                }
+            }
         }
         
 
