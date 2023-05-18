@@ -49,7 +49,6 @@ RUN ln -s /usr/lib/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner
 # Install necessary binaries
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends \
-    trivy \
     bsdmainutils \
     curl \
     dnsutils \
@@ -61,6 +60,7 @@ RUN apt-get install -y --no-install-recommends \
     procps \
     python3 \
     python3-venv 
+RUN apt-get install -y trivy
 Run apt-get clean 
 RUN rm -rf /var/lib/apt/lists/*
 
