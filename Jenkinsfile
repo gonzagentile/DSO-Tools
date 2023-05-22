@@ -72,7 +72,7 @@ pipeline {
         stage("trivy scan") {
             agent {
                 docker {
-                    image "${DOCKER_IMAGE}:${BRANCH_NAME}"
+                    image "${DOCKER_IMAGE}"
                     // Make sure that username can be mapped correctly
                     args "--user root -v /var/run/docker.sock:/var/run/docker.sock -v trivy-cache:/root/.cache/"
                     reuseNode true
