@@ -61,7 +61,7 @@ RUN apt-get install -y --no-install-recommends \
     procps \
     python3 \
     python3-venv 
-Run apt-get clean 
+RUN apt-get clean 
 RUN rm -rf /var/lib/apt/lists/*
 
 # Download and Install Trivy
