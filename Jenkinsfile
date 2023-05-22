@@ -10,7 +10,7 @@ pipeline {
     environment { // Environment variables defined for all steps
         DOCKER_IMAGE = "dso-tools"
         GITHUB_TOKEN = credentials("github_token")
-        TOOLS_IMAGE = "ghcr.io/pablorechimon/dso-tools:${BRANCH_NAME}"
+        TOOLS_IMAGE = "ghcr.io/pablorechimon/dso-tools"
     }
 
     stages {
@@ -47,7 +47,7 @@ pipeline {
                             tag = "${BRANCH_NAME}"
                         }
                     }
-                    def image = docker.build("$TOOLS_IMAGE", "--build-arg 'BUILDKIT_INLINE_CACHE=1' --cache-from $DOCKER_IMAGE:$tag --cache-from $DOCKER_IMAGE:latest .")
+                    def image = docker.build("$TOOLS_IMAGE:$tag", "--build-arg 'BUILDKIT_INLINE_CACHE=1' --cache-from $DOCKER_IMAGE:$tag --cache-from $DOCKER_IMAGE:latest .")
                     // Make sure that the user ID exists within the container
                     image.inside("--volume /etc/passwd:/etc/passwd:ro") {
                         sh label: "Test anchore-cli",
@@ -72,7 +72,7 @@ pipeline {
         stage("trivy scan") {
             agent {
                 docker {
-                    image "${TOOLS_IMAGE}"
+                    image "${DOCKER_IMAGE}:${BRANCH_NAME}"
                     // Make sure that username can be mapped correctly
                     args "--user root -v /var/run/docker.sock:/var/run/docker.sock -v trivy-cache:/root/.cache/"
                     reuseNode true
