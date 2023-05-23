@@ -1,6 +1,6 @@
 # Use a base image to build (and download) the tools on
 
-FROM ubuntu:latest as build
+FROM --platform=linux/amd64 ubuntu:latest as build
 
 LABEL org.opencontainers.image.source https://github.com/pablorechimon/dso-tools
 
@@ -37,7 +37,7 @@ RUN curl -sL https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/son
     unzip /tmp/scanner.zip -d /tmp/sonarscanner && \
     mv /tmp/sonarscanner/sonar-scanner-${SCANNER}-linux /usr/lib/sonar-scanner
 
-FROM ubuntu:latest as release
+FROM --platform=linux/amd64 ubuntu:latest as release
 LABEL org.opencontainers.image.source https://github.com/pablorechimon/dso-tools
 # Default entry point
 WORKDIR /workdir
