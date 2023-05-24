@@ -10,7 +10,7 @@ pipeline {
     environment { // Environment variables defined for all steps
         DOCKER_IMAGE = "dso-tools"
         GITHUB_TOKEN = credentials("github_token")
-        TOOLS_IMAGE = "ghcr.io/pablorechimon/dso-tools"
+        TOOLS_IMAGE = "ghcr.io/gonzagentile/dso-tools"
     }
 
     stages {
